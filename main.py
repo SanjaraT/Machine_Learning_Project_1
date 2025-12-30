@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from imblearn.over_sampling import SMOTE
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
 
 cols = ["fLength","fwidth","fSize","fConc","fConc1","fAsym","fM3Long","fM3Trans","fAlpha","fDist","class"]
 df = pd.read_csv("magic04.data",names=cols)
@@ -20,7 +22,7 @@ for label in cols[:-1]:
     plt.ylabel("Probability")
     plt.xlabel("Label")
     plt.legend()
-    plt.show()
+    #plt.show()
 
 # Correlation matrix
 corr = df.corr()
@@ -79,7 +81,7 @@ X_test_scaled = scaler.transform(X_test)
 X_train_scaled_df = pd.DataFrame(X_train_scaled, columns= X_train.columns)
 # print(X_train_scaled_df)
 
-#DATA BALNACING
+#DATA BALANACING
 smote = SMOTE(random_state=42)
 X_train_bal, y_train_bal = smote.fit_resample(X_train_scaled,y_train)
 
@@ -88,4 +90,21 @@ pd.Series(y_train_bal).value_counts().plot(kind ="bar")
 plt.xticks([0,1], ["Hadron (0)", "Gamma (1)"], rotation=0)
 plt.ylabel("Count")
 plt.title("Class Distribution After Balancing (Training Set)")
-plt.show()
+#plt.show()
+
+#KNN MODEL
+#training
+knn = KNeighborsClassifier(n_neighbors=9,metric="euclidean")
+knn.fit(X_train_bal,y_train_bal)
+
+#validation
+y_val_pred = knn.predict(X_val_scaled)
+print("Validation Accuracy: ",accuracy_score(y_val,y_val_pred))
+print("\nValidation Classification Report: \n")
+print(classification_report(y_val, y_val_pred))
+
+#test
+y_test_pred = knn.predict(X_test_scaled)
+print("Test Accuracy: ",accuracy_score(y_test,y_test_pred))
+print("\n Test Classification Report: \n")
+print(classification_report(y_test,y_test_pred))
