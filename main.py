@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from imblearn.over_sampling import SMOTE
 
 cols = ["fLength","fwidth","fSize","fConc","fConc1","fAsym","fM3Long","fM3Trans","fAlpha","fDist","class"]
 df = pd.read_csv("magic04.data",names=cols)
@@ -19,7 +20,7 @@ for label in cols[:-1]:
     plt.ylabel("Probability")
     plt.xlabel("Label")
     plt.legend()
-    #plt.show()
+    plt.show()
 
 # Correlation matrix
 corr = df.corr()
@@ -76,4 +77,15 @@ X_val_scaled = scaler.transform(X_val)
 X_test_scaled = scaler.transform(X_test)
 
 X_train_scaled_df = pd.DataFrame(X_train_scaled, columns= X_train.columns)
-print(X_train_scaled_df)
+# print(X_train_scaled_df)
+
+#DATA BALNACING
+smote = SMOTE(random_state=42)
+X_train_bal, y_train_bal = smote.fit_resample(X_train_scaled,y_train)
+
+plt.figure(figsize=(5,4))
+pd.Series(y_train_bal).value_counts().plot(kind ="bar")
+plt.xticks([0,1], ["Hadron (0)", "Gamma (1)"], rotation=0)
+plt.ylabel("Count")
+plt.title("Class Distribution After Balancing (Training Set)")
+plt.show()
