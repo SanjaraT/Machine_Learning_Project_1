@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt 
 
+
 cols = ["fLength","fwidth","fSize","fConc","fConc1","fAsym","fM3Long","fM3Trans","fAlpha","fDist","class"]
 df = pd.read_csv("magic04.data",names=cols)
 #print(df.head())
@@ -22,10 +23,9 @@ for label in cols[:-1]:
 # Correlation matrix
 corr = df.corr()
 
-# Plot
 plt.figure(figsize=(10, 8))
 plt.imshow(corr, cmap="coolwarm", interpolation="nearest")
-
+plt.colorbar()
 
 plt.xticks(range(len(corr.columns)), corr.columns, rotation=90)
 plt.yticks(range(len(corr.columns)), corr.columns)
@@ -43,4 +43,13 @@ for i in range(len(corr.columns)):
 
 plt.title("Correlation Heatmap of MAGIC Dataset")
 plt.tight_layout()
+#plt.show()
+
+#CLASS DISTRIBUTION
+plt.figure(figsize=(5,4))
+df["class"].value_counts().plot(kind="bar")
+plt.xticks([0,1],["Hadron (0)","Gammma (1)"],rotation = 0)
+plt.ylabel("Count")
+plt.title("Class Distribution")
 plt.show()
+
