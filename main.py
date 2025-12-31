@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from imblearn.over_sampling import SMOTE
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
 
 cols = ["fLength","fwidth","fSize","fConc","fConc1","fAsym","fM3Long","fM3Trans","fAlpha","fDist","class"]
@@ -99,12 +100,25 @@ knn.fit(X_train_bal,y_train_bal)
 
 #validation
 y_val_pred = knn.predict(X_val_scaled)
-print("Validation Accuracy: ",accuracy_score(y_val,y_val_pred))
-print("\nValidation Classification Report: \n")
-print(classification_report(y_val, y_val_pred))
+# print("Validation Accuracy: ",accuracy_score(y_val,y_val_pred))
+# print("\nValidation Classification Report: \n")
+# print(classification_report(y_val, y_val_pred))
 
 #test
 y_test_pred = knn.predict(X_test_scaled)
-print("Test Accuracy: ",accuracy_score(y_test,y_test_pred))
-print("\n Test Classification Report: \n")
-print(classification_report(y_test,y_test_pred))
+# print("Test Accuracy: ",accuracy_score(y_test,y_test_pred))
+# print("\n Test Classification Report: \n")
+# print(classification_report(y_test,y_test_pred))
+
+#NAIVE BAYES
+
+nb = GaussianNB()
+nb.fit(X_train_bal,y_train_bal)
+
+y_val_pred_nb = nb.predict(X_val_scaled)
+print("Validation Accuracy: ",accuracy_score(y_val,y_val_pred_nb))
+print(classification_report(y_val,y_val_pred_nb))
+
+y_test_pred_nb = nb.predict(X_test_scaled)
+print("Test accuracy : ",accuracy_score(y_test, y_test_pred_nb))
+print(classification_report(y_test, y_test_pred_nb))
