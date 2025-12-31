@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from imblearn.over_sampling import SMOTE
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
 
 cols = ["fLength","fwidth","fSize","fConc","fConc1","fAsym","fM3Long","fM3Trans","fAlpha","fDist","class"]
@@ -116,9 +117,19 @@ nb = GaussianNB()
 nb.fit(X_train_bal,y_train_bal)
 
 y_val_pred_nb = nb.predict(X_val_scaled)
-print("Validation Accuracy: ",accuracy_score(y_val,y_val_pred_nb))
-print(classification_report(y_val,y_val_pred_nb))
+# print("Validation Accuracy: ",accuracy_score(y_val,y_val_pred_nb))
+# print(classification_report(y_val,y_val_pred_nb))
 
 y_test_pred_nb = nb.predict(X_test_scaled)
-print("Test accuracy : ",accuracy_score(y_test, y_test_pred_nb))
-print(classification_report(y_test, y_test_pred_nb))
+# print("Test accuracy : ",accuracy_score(y_test, y_test_pred_nb))
+# print(classification_report(y_test, y_test_pred_nb))
+
+#LOGIISTIC REGRESSION
+lr = LogisticRegression(max_iter=1000, random_state=42)
+lr.fit(X_train_bal,y_train_bal)
+
+y_val_pred_lr = lr.predict(X_val_scaled)
+print(classification_report(y_val, y_val_pred_lr))
+
+y_test_pred_lr = lr.predict(X_test_scaled)
+print(classification_report(y_test, y_test_pred_lr))
