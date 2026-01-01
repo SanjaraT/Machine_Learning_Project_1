@@ -113,7 +113,6 @@ y_test_pred = knn.predict(X_test_scaled)
 # print(classification_report(y_test,y_test_pred))
 
 #NAIVE BAYES
-
 nb = GaussianNB()
 nb.fit(X_train_bal,y_train_bal)
 
@@ -140,7 +139,17 @@ svm = SVC(kernel="rbf", C = 1.0, random_state=42)
 svm.fit(X_train_bal, y_train_bal)
 
 y_val_pred_svm = svm.predict(X_val_scaled)
-print(classification_report(y_val, y_val_pred_svm))
+#print(classification_report(y_val, y_val_pred_svm))
 
 y_test_pred_svm = svm.predict(X_test_scaled)
-print(classification_report(y_test, y_test_pred_svm))
+#print(classification_report(y_test, y_test_pred_svm))
+
+#NEURAL NET
+import tensorflow as tf
+from tensorflow import keras 
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import EarlyStopping
+
+
