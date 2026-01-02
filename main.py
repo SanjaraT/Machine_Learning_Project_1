@@ -178,5 +178,11 @@ history = model.fit(
     callbacks = [early_stop],
     verbose =1
 )
+#evaluation
+test_loss, test_acc = model.evaluate(X_test_scaled, y_test)
+print("Test Accuracy: ", test_acc)
 
-
+#classification
+y_test_pred_nn = (model.predict(X_test_scaled)> 0.5).astype(int)
+print("Classification Report: ")
+print(classification_report(y_test, y_test_pred_nn))
