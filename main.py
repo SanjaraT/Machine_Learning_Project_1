@@ -152,4 +152,16 @@ from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping
 
+#model
+model = Sequential([
+    Dense(64,activation = "relu", input_shape = (X_train_bal.shape[1],)),
+    Dense(32, activation = "relu"),
+    Dense(1, activation = "sigmoid")
+])
+model.compile(
+    optimizer = Adam(learning_rate = 0.001),
+    loss ="binary_crossentropy",
+    metrics = ["Accuracy"]
+)
+
 
