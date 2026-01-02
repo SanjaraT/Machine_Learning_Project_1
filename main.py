@@ -163,5 +163,20 @@ model.compile(
     loss ="binary_crossentropy",
     metrics = ["Accuracy"]
 )
+#early stopping
+early_stop = EarlyStopping(
+    monitor = "val_loss",
+    patience = 5,
+    restore_best_weights = True
+)
+#training
+history = model.fit(
+    X_train_bal, y_train_bal,
+    validation_data = (X_val_scaled,y_val),
+    epochs = 50,
+    batch_size = 32,
+    callbacks = [early_stop],
+    verbose =1
+)
 
 
